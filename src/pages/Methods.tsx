@@ -153,14 +153,15 @@ export const Methods: React.FC = () => {
         color: 'var(--colors-brand-text-muted)',
         lineHeight: '1.6',
         textAlign: 'justify',
-        flexGrow: 1,
+        flex: 1,
+        minHeight: 0,
+        overflow: 'hidden',
         background: 'var(--colors-brand-bg-page)',
-        padding: '16px',
-        borderRadius: '12px',
+        padding: '12px 14px',
+        borderRadius: '10px',
         borderLeft: '4px solid var(--colors-brand-primary)',
         display: 'flex',
         flexDirection: 'column',
-        marginTop: '8px',
     });
 
     const methodSteps = css({
