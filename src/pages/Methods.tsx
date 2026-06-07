@@ -190,7 +190,7 @@ export const Methods: React.FC = () => {
     return (
         <div className={containerStyle}>
             <div>
-                <h2 className={pageTitle}>Калейдоскоп інклюзивних методик навчання</h2>
+                <h2 className={pageTitle}>Калейдоскоп методів</h2>
                 <p className={css({ color: 'var(--colors-brand-text-muted)', marginTop: '-12px', marginBottom: '24px' })}>
                     35 інноваційних лінгводидактичних прийомів вивчення англійської мови:
                 </p>
