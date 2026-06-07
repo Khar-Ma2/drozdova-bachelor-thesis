@@ -1,10 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card } from '../components/Card';
 import { recsDatabase } from '../features/data';
 import { css, cx } from '../../styled-system/css';
 
-export const Recommendations: React.FC = () => {
-    const [activeTab, setActiveTab] = useState<'handbook' | 'constructor'>('handbook');
+interface RecommendationsProps {
+    defaultSubTab?: 'handbook' | 'constructor';
+}
+
+export const Recommendations: React.FC<RecommendationsProps> = ({ defaultSubTab = 'handbook' }) => {
+    const [activeTab, setActiveTab] = useState<'handbook' | 'constructor'>(defaultSubTab);
+
+    useEffect(() => {
+        setActiveTab(defaultSubTab);
+    }, [defaultSubTab]);
     const [selectedNozology, setSelectedNozology] = useState<string>('ras');
     const [symptoms, setSymptoms] = useState<Record<string, boolean>>({
         ind_form: false,
@@ -92,37 +100,61 @@ export const Recommendations: React.FC = () => {
     });
 
     const sidebarBtn = css({
-        padding: '14px 20px',
+        padding: '16px',
         borderRadius: 'innerCard',
         border: '1px solid var(--colors-brand-border-light)',
         background: 'var(--colors-brand-bg-card)',
         textAlign: 'left',
         cursor: 'pointer',
-        fontWeight: '700',
-        fontSize: '0.925rem',
-        color: 'var(--colors-brand-text-main)',
         transition: 'all 0.2s ease',
         display: 'flex',
         alignItems: 'center',
-        justifyContent: 'space-between',
+        gap: '16px',
+        position: 'relative',
+        overflow: 'hidden',
 
         _hover: {
             background: 'var(--colors-brand-primary-light)',
-            borderColor: 'transparent',
-            transform: 'translateX(4px)',
+            borderColor: 'rgba(99, 102, 241, 0.2)',
+            transform: 'translateX(6px)',
         }
     });
 
     const activeSidebarBtn = css({
         background: 'var(--colors-brand-primary-light)!',
-        borderColor: 'rgba(99, 102, 241, 0.3)!',
-        color: 'var(--colors-brand-primary-dark)!',
+        borderColor: 'var(--colors-brand-primary)!',
+        boxShadow: '0 4px 12px rgba(99, 102, 241, 0.08)',
     });
 
-    const badgeDot = css({
-        width: '10px',
-        height: '10px',
-        borderRadius: '50%',
+    const sidebarIconContainer = css({
+        fontSize: '1.5rem',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: '40px',
+        height: '40px',
+        borderRadius: '12px',
+        background: 'var(--colors-brand-bg-page)',
+        flexShrink: 0,
+        boxShadow: 'soft',
+    });
+
+    const sidebarContent = css({
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '2px',
+    });
+
+    const sidebarTitle = css({
+        fontSize: '0.95rem',
+        fontWeight: '700',
+        color: 'var(--colors-brand-text-main)',
+    });
+
+    const sidebarSubtitle = css({
+        fontSize: '0.775rem',
+        fontWeight: '600',
+        color: 'var(--colors-brand-text-muted)',
     });
 
     const contentPane = css({
@@ -153,13 +185,6 @@ export const Recommendations: React.FC = () => {
         fontSize: '1.25rem',
         fontWeight: '800',
         color: 'var(--colors-brand-text-main)',
-        marginBottom: '6px',
-    });
-
-    const categorySubtitle = css({
-        fontSize: '0.85rem',
-        color: 'var(--colors-brand-text-muted)',
-        fontWeight: '600',
     });
 
     const recsList = css({
@@ -192,6 +217,7 @@ export const Recommendations: React.FC = () => {
         display: 'flex',
         flexDirection: 'column',
         gap: '4px',
+        width: '100%',
     });
 
     const itemTitle = css({
@@ -205,6 +231,19 @@ export const Recommendations: React.FC = () => {
         color: 'var(--colors-brand-text-muted)',
         lineHeight: '1.6',
         textAlign: 'justify',
+    });
+
+    const expertTipBox = css({
+        marginTop: '12px',
+        padding: '14px 16px',
+        borderRadius: 'innerCard',
+        background: 'var(--colors-brand-bg-page)',
+        borderLeft: '4px solid var(--tip-color)',
+        fontSize: '0.875rem',
+        lineHeight: '1.6',
+        color: 'var(--colors-brand-text-main)',
+        fontWeight: '600',
+        boxShadow: 'soft',
     });
 
     // Constructor styles
@@ -284,12 +323,12 @@ export const Recommendations: React.FC = () => {
     });
 
     const nozologyCategories = [
-        { id: 'ras', label: 'РАС', name: 'Учні з аутизмом', color: 'var(--colors-nozology-ras)' },
-        { id: 'top', label: 'ТОП', name: 'Тимчасові потреби', color: 'var(--colors-nozology-top)' },
-        { id: 'ora', label: 'ОРА', name: 'Порушення ОРА', color: 'var(--colors-nozology-ora)' },
-        { id: 'zpr', label: 'ЗПР', name: 'Затримка розвитку', color: 'var(--colors-nozology-zpr)' },
-        { id: 'rdug', label: 'РДУГ', name: 'Гіперактивність', color: 'var(--colors-nozology-rdug)' },
-        { id: 'znm', label: 'ЗНМ', name: 'Недорозвинення мови', color: 'var(--colors-nozology-znm)' },
+        { id: 'ras', icon: '🧩', title: 'Учні з РАС', subtitle: '6 практичних кроків', color: 'var(--colors-nozology-ras)' },
+        { id: 'top', icon: '🕊️', title: 'Діти з ТОП (Війна)', subtitle: '4 практичні кроки', color: 'var(--colors-nozology-top)' },
+        { id: 'ora', icon: '♿', title: 'Учні з порушенням ОРА', subtitle: '5 практичних кроків', color: 'var(--colors-nozology-ora)' },
+        { id: 'zpr', icon: '🧠', title: 'Учні з ЗПР', subtitle: '3 практичні кроки', color: 'var(--colors-nozology-zpr)' },
+        { id: 'rdug', icon: '⚡', title: 'Учні з РДУГ', subtitle: '5 практичних кроків', color: 'var(--colors-nozology-rdug)' },
+        { id: 'znm', icon: '🗣️', title: 'Учні з ЗНМ', subtitle: '4 практичні кроки', color: 'var(--colors-nozology-znm)' },
     ];
 
     const activeRec = recsDatabase[selectedNozology] || recsDatabase.ras;
@@ -302,6 +341,18 @@ export const Recommendations: React.FC = () => {
         { id: 'speech_barrier', text: "Труднощі відтворення лексики та порушення вимови" },
         { id: 'sensory_hyper', text: "Сенсорна гіперчутливість до сильного шуму" },
     ];
+
+    const expertTips: Record<string, Record<number, string>> = {
+        ras: {
+            6: "💡 Порада вчителю: Завжди тримайте готовими картки PECS швидкого реагування, навіть якщо дитина розмовляє. У стані сенсорного перевантаження мовленнєвий центр блокується найпершим."
+        },
+        top: {
+            1: "💡 Порада вчителю: Зберігайте гнучкість. Якщо тема «My Home» викликає сльози, миттєво перемикайтеся на малювання вигаданого казкового замку для ельфа."
+        },
+        rdug: {
+            5: "💡 Порада вчителю: Під час евакуації в укриття доручіть дитині з РДУГ «відповідальну місію» (наприклад, тримати ліхтарик або стежити за орієнтирами). Це фокусує увагу та збиває тривожність."
+        }
+    };
 
     const hasAnySymptom = Object.values(symptoms).some(v => v);
 
@@ -339,10 +390,14 @@ export const Recommendations: React.FC = () => {
                             <div
                                 key={cat.id}
                                 className={cx(sidebarBtn, selectedNozology === cat.id && activeSidebarBtn)}
+                                style={selectedNozology === cat.id ? { borderLeft: `4px solid ${cat.color}` } : {}}
                                 onClick={() => setSelectedNozology(cat.id)}
                             >
-                                <span>{cat.label} ({cat.name})</span>
-                                <div className={badgeDot} style={{ background: cat.color }} />
+                                <div className={sidebarIconContainer}>{cat.icon}</div>
+                                <div className={sidebarContent}>
+                                    <h4 className={sidebarTitle}>{cat.title}</h4>
+                                    <span className={sidebarSubtitle}>{cat.subtitle}</span>
+                                </div>
                             </div>
                         ))}
                     </div>
@@ -351,19 +406,29 @@ export const Recommendations: React.FC = () => {
                     <div className={contentPane}>
                         <div className={categoryHeader} style={{ '--header-glow': activeRec.badgeColor } as React.CSSProperties}>
                             <h3 className={categoryTitle}>{activeRec.title}</h3>
-                            <span className={categorySubtitle}>{activeRec.subtitle}</span>
                         </div>
 
                         <div className={recsList}>
-                            {activeRec.items.map((item) => (
-                                <Card key={item.num} className={recItemCard}>
-                                    <div className={itemNum}>{item.num}</div>
-                                    <div className={itemContent}>
-                                        <h4 className={itemTitle}>{item.title}</h4>
-                                        <p className={itemText}>{item.text}</p>
-                                    </div>
-                                </Card>
-                            ))}
+                            {activeRec.items.map((item) => {
+                                const tip = expertTips[selectedNozology]?.[item.num];
+                                return (
+                                    <Card key={item.num} className={recItemCard}>
+                                        <div className={itemNum}>{item.num}</div>
+                                        <div className={itemContent}>
+                                            <h4 className={itemTitle}>{item.title}</h4>
+                                            <p className={itemText}>{item.text}</p>
+                                            {tip && (
+                                                <div 
+                                                    className={expertTipBox} 
+                                                    style={{ '--tip-color': activeRec.badgeColor } as React.CSSProperties}
+                                                >
+                                                    {tip}
+                                                </div>
+                                            )}
+                                        </div>
+                                    </Card>
+                                );
+                            })}
                         </div>
                     </div>
                 </div>
