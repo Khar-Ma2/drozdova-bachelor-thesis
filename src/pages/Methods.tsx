@@ -40,40 +40,42 @@ export const Methods: React.FC = () => {
 
     const tabsMenu = css({
         display: 'flex',
-        gap: '8px',
-        overflowX: 'auto',
-        paddingBottom: '8px',
-        marginBottom: '24px',
-        scrollbarWidth: 'none',
-        '&::-webkit-scrollbar': {
-            display: 'none'
-        }
+        flexWrap: 'wrap',
+        gap: '10px',
+        marginBottom: '32px',
     });
 
     const tabBtn = css({
         background: 'var(--colors-brand-bg-card)',
-        border: '1px solid var(--colors-brand-border-light)',
+        border: '2px solid var(--colors-brand-border-light)',
         color: 'var(--colors-brand-text-muted)',
-        padding: '10px 20px',
+        padding: '12px 30px',
         borderRadius: 'pill',
         cursor: 'pointer',
-        fontWeight: '700',
-        fontSize: '0.9rem',
-        transition: 'all 0.2s',
+        fontWeight: '800',
+        fontSize: '0.95rem',
+        transition: 'all 0.25s cubic-bezier(0.4, 0, 0.2, 1)',
         whiteSpace: 'nowrap',
+        boxShadow: 'soft',
 
         _hover: {
-            color: 'var(--colors-brand-primary)',
+            color: 'var(--colors-brand-primary-dark)',
             background: 'var(--colors-brand-primary-light)',
-            borderColor: 'transparent',
+            borderColor: 'var(--colors-brand-primary)',
+            transform: 'translateY(-2px)',
+            boxShadow: '0 6px 15px rgba(99, 102, 241, 0.15)',
+        },
+        _active: {
+            transform: 'translateY(0)',
         }
     });
 
     const activeTabBtn = css({
-        background: 'var(--colors-brand-primary)!',
+        background: 'linear-gradient(135deg, var(--colors-brand-primary), var(--colors-brand-primary-dark))!',
         color: 'white!',
         borderColor: 'var(--colors-brand-primary)!',
-        boxShadow: '0 4px 10px rgba(99, 102, 241, 0.2)',
+        boxShadow: '0 8px 20px rgba(99, 102, 241, 0.3)!',
+        transform: 'translateY(-2px)',
     });
 
     const kaleidoscopeGrid = css({
@@ -143,15 +145,22 @@ export const Methods: React.FC = () => {
         fontWeight: '800',
         color: 'var(--colors-brand-text-main)',
         lineHeight: '1.4',
-        margin: '12px 0 8px 0',
+        margin: '16px 0 16px 0',
     });
 
     const methodGoal = css({
-        fontSize: '0.925rem',
+        fontSize: '0.9rem',
         color: 'var(--colors-brand-text-muted)',
         lineHeight: '1.6',
         textAlign: 'justify',
         flexGrow: 1,
+        background: 'var(--colors-brand-bg-page)',
+        padding: '16px',
+        borderRadius: '12px',
+        borderLeft: '4px solid var(--colors-brand-primary)',
+        display: 'flex',
+        flexDirection: 'column',
+        marginTop: '8px',
     });
 
     const methodSteps = css({
@@ -227,11 +236,23 @@ export const Methods: React.FC = () => {
                                 <div className={cx(cardFace, cardFront)}>
                                     <span className={methodMeta}>{item.category}</span>
                                     <h3 className={methodTitle}>{item.title}</h3>
-                                    <p className={methodGoal}>
-                                        <strong>Мета:</strong> {item.goal}
-                                    </p>
+                                    <div className={methodGoal}>
+                                        <strong className={css({ 
+                                            color: 'var(--colors-brand-primary-dark)', 
+                                            fontSize: '0.775rem', 
+                                            textTransform: 'uppercase',
+                                            letterSpacing: '0.5px',
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            gap: '6px',
+                                            marginBottom: '4px'
+                                        })}>
+                                            🎯 Цільова мета:
+                                        </strong>
+                                        <span>{item.goal}</span>
+                                    </div>
                                     <div className={cardFooter}>
-                                        Натисніть для перегляду кроків 🔄
+                                        ⚡ Алгоритм реалізації ➔
                                     </div>
                                 </div>
 
@@ -243,7 +264,7 @@ export const Methods: React.FC = () => {
                                         {item.steps}
                                     </div>
                                     <div className={cardFooter}>
-                                        Назад до опису 🔄
+                                        ↩️ Назад до опису
                                     </div>
                                 </div>
                             </div>
