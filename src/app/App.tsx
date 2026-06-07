@@ -9,9 +9,18 @@ import { css, cx } from '../../styled-system/css';
 
 export const App: React.FC = () => {
     const [currentSection, setCurrentSection] = useState<string>('home');
+    const [recSubTab, setRecSubTab] = useState<'handbook' | 'constructor'>('handbook');
 
     const handleNavigate = (section: string) => {
-        setCurrentSection(section);
+        if (section === 'recommendations-constructor') {
+            setCurrentSection('recommendations');
+            setRecSubTab('constructor');
+        } else if (section === 'recommendations') {
+            setCurrentSection('recommendations');
+            setRecSubTab('handbook');
+        } else {
+            setCurrentSection(section);
+        }
         window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
@@ -43,20 +52,6 @@ export const App: React.FC = () => {
         alignItems: 'center',
         gap: '12px',
         cursor: 'pointer',
-    });
-
-    const logoIcon = css({
-        background: 'linear-gradient(135deg, var(--colors-brand-primary), var(--colors-brand-secondary))',
-        color: 'white',
-        width: '40px',
-        height: '40px',
-        borderRadius: 'innerCard',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        fontWeight: '800',
-        fontSize: '1.25rem',
-        boxShadow: '0 4px 10px rgba(99, 102, 241, 0.3)',
     });
 
     const logoText = css({
@@ -129,11 +124,37 @@ export const App: React.FC = () => {
             <header className={headerStyle}>
                 <div className={headerContainer}>
                     <div className={logoArea} onClick={() => handleNavigate('home')}>
-                        <div className={logoIcon}>E</div>
                         <div className={logoText}>
-                            Inclusive English
-                            <div className={css({ fontSize: '0.75rem', fontWeight: '500', color: 'var(--colors-brand-text-muted)' })}>
-                                Digital Methodology Case
+                            <span className={css({
+                                background: 'linear-gradient(135deg, var(--colors-brand-primary) 0%, var(--colors-brand-secondary) 100%)',
+                                backgroundClip: 'text',
+                                color: 'transparent',
+                                fontSize: '1.25rem',
+                                fontWeight: '900',
+                                letterSpacing: '-0.5px'
+                            })}>
+                                Inclusive English
+                            </span>
+                            <div className={css({
+                                fontSize: '0.75rem',
+                                fontWeight: '700',
+                                color: 'var(--colors-brand-primary-dark)',
+                                letterSpacing: '1px',
+                                textTransform: 'uppercase',
+                                marginTop: '2px',
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: '6px',
+                                _before: {
+                                    content: '""',
+                                    display: 'inline-block',
+                                    width: '6px',
+                                    height: '6px',
+                                    borderRadius: '50%',
+                                    background: 'var(--colors-brand-secondary)'
+                                }
+                            })}>
+                                Methodology Hub
                             </div>
                         </div>
                     </div>
@@ -172,26 +193,26 @@ export const App: React.FC = () => {
                             className={cx(navLink, currentSection === 'methods' && activeNavLink)}
                             onClick={() => handleNavigate('methods')}
                         >
-                            Калейдоскоп методик
+                            Калейдоскоп методів
                         </div>
                     </nav>
                 </div>
             </header>
-
+ 
             {/* MAIN CONTENT SPACE */}
             <main className={contentContainer}>
                 {currentSection === 'home' && <Home onNavigate={handleNavigate} />}
                 {currentSection === 'theory' && <Theory />}
                 {currentSection === 'cases' && <Cases />}
                 {currentSection === 'materials' && <Library />}
-                {currentSection === 'recommendations' && <Recommendations />}
+                {currentSection === 'recommendations' && <Recommendations defaultSubTab={recSubTab} />}
                 {currentSection === 'methods' && <Methods />}
             </main>
-
+ 
             {/* PREMIUM FOOTER */}
             <footer className={footerStyle}>
                 <div className={footerText}>
-                    © {new Date().getFullYear()} - Цифровий методичний кейс • Дроздова Ксенія Олексіївна • Усі права захищено
+                    © {new Date().getFullYear()} - Методичний хаб: навчання англійської мови дітей з особливими освітніми потребами • Дроздова Ксенія Олексіївна
                 </div>
             </footer>
         </div>
