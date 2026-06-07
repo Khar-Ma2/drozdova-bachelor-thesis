@@ -1,11 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Card } from '../components/Card';
-import { Button } from '../components/Button';
-import { Dialog } from '../components/Dialog';
 import { css } from '../../styled-system/css';
 
 export const Library: React.FC = () => {
-    const [downloadInfo, setDownloadInfo] = useState<{ title: string; body: string } | null>(null);
 
     const containerStyle = css({
         display: 'flex',
@@ -32,10 +29,9 @@ export const Library: React.FC = () => {
         }
     });
 
-    const gridStyle = css({
-        display: 'grid',
-        gridTemplateColumns: { base: '1fr', md: '1fr 1fr', lg: 'repeat(3, 1fr)' },
-        gap: '24px',
+    const centerGrid = css({
+        display: 'flex',
+        justifyContent: 'center',
     });
 
     const cardContent = css({
@@ -45,6 +41,7 @@ export const Library: React.FC = () => {
         textAlign: 'center',
         height: '100%',
         justifyContent: 'space-between',
+        maxWidth: '400px',
     });
 
     const iconStyle = css({
@@ -75,32 +72,29 @@ export const Library: React.FC = () => {
         flexGrow: 1,
     });
 
-    const materials = [
-        {
-            icon: "🃏",
-            title: "Флешкартки \"Professions\"",
-            text: "Універсальні невербальні картки для полегшення комунікації та вивчення лексики. Містять чіткий контурний малюнок та підпис великим шрифтом з колірним кодуванням першої літери.",
-            buttonText: "Отримати PDF",
-            downloadTitle: "📥 Завантаження флешкаток",
-            downloadBody: "Архів «Professions_Flashcards_English.zip» успішно сформовано та завантажено!"
-        },
-        {
-            icon: "🎲",
-            title: "Ігровий комплект «Picture Bingo»",
-            text: "Дидактичне беззмагальне лото для легкого запам'ятовування нових лексичних одиниць. Включає 6 індивідуальних карток-лото та великі картки ведучого для незмагальної ігрової діяльності.",
-            buttonText: "Отримати ZIP",
-            downloadTitle: "📥 Завантаження Picture Bingo",
-            downloadBody: "Архів «Picture_Bingo_Templates.zip» готовий до розпакування та друку карт!"
-        },
-        {
-            icon: "📋",
-            title: "Чек-листи процесу «To Do / Done»",
-            text: "Покроковий графічний план дій для самостійних письмових завдань на уроках. Допомагає дитині з розладом спектру аутизму та дефіциту уваги самостійно структурувати хід виконання завдань.",
-            buttonText: "Отримати PDF",
-            downloadTitle: "📥 Завантаження чек-листів",
-            downloadBody: "Чек-листи «Checklists_To_Do_Done.pdf» успішно завантажені та готові до інтеграції на робочі парти учнів."
+    const downloadBtn = css({
+        display: 'inline-flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: '100%',
+        gap: '8px',
+        fontWeight: '700',
+        fontSize: '0.95rem',
+        padding: '12px 24px',
+        borderRadius: 'button',
+        cursor: 'pointer',
+        border: 'none',
+        color: 'white',
+        background: 'linear-gradient(135deg, var(--colors-brand-primary), var(--colors-brand-primary-dark))',
+        boxShadow: '0 4px 14px 0 rgba(99, 102, 241, 0.25)',
+        transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
+        textDecoration: 'none',
+
+        _hover: {
+            boxShadow: '0 6px 20px 0 rgba(99, 102, 241, 0.35)',
+            transform: 'translateY(-1px)',
         }
-    ];
+    });
 
     return (
         <div className={containerStyle}>
@@ -111,41 +105,24 @@ export const Library: React.FC = () => {
                 </p>
             </div>
 
-            <div className={gridStyle}>
-                {materials.map((mat, idx) => (
-                    <Card key={idx} interactive glowColor="var(--colors-brand-primary-light)">
-                        <div className={cardContent}>
-                            <div className={iconStyle}>{mat.icon}</div>
-                            <h3 className={materialTitle}>{mat.title}</h3>
-                            <p className={materialText}>{mat.text}</p>
-                            <Button
-                                variant="primary"
-                                fullWidth
-                                onClick={() => setDownloadInfo({ title: mat.downloadTitle, body: mat.downloadBody })}
-                            >
-                                {mat.buttonText}
-                            </Button>
-                        </div>
-                    </Card>
-                ))}
+            <div className={centerGrid}>
+                <Card interactive glowColor="var(--colors-brand-primary-light)">
+                    <div className={cardContent}>
+                        <div className={iconStyle}>🃏</div>
+                        <h3 className={materialTitle}>Флешкартки "Professions"</h3>
+                        <p className={materialText}>
+                            Універсальні невербальні картки для полегшення комунікації та вивчення лексики.
+                        </p>
+                        <a
+                            href={import.meta.env.BASE_URL + 'flashcards-professions.zip'}
+                            download="flashcards-professions.zip"
+                            className={downloadBtn}
+                        >
+                            📥 Завантажити
+                        </a>
+                    </div>
+                </Card>
             </div>
-
-            {/* Notification Dialog */}
-            <Dialog
-                isOpen={downloadInfo !== null}
-                onClose={() => setDownloadInfo(null)}
-                title={downloadInfo?.title || ''}
-            >
-                <div className={css({ textAlign: 'center', padding: '16px 0' })}>
-                    <div className={css({ fontSize: '3.5rem', marginBottom: '16px' })}>🎉</div>
-                    <p className={css({ color: 'var(--colors-brand-text-main)', fontSize: '1.05rem', lineHeight: '1.6', margin: '0 0 20px 0' })}>
-                        {downloadInfo?.body}
-                    </p>
-                    <Button variant="secondary" onClick={() => setDownloadInfo(null)}>
-                        Зрозуміло
-                    </Button>
-                </div>
-            </Dialog>
         </div>
     );
 };
