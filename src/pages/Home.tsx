@@ -13,7 +13,7 @@ export const Home: React.FC<HomeProps> = ({ onNavigate }) => {
     const handleCopyEmail = (e: React.MouseEvent) => {
         e.preventDefault();
         e.stopPropagation();
-        
+
         const email = 'teac4er1@gmail.com';
         if (navigator.clipboard && navigator.clipboard.writeText) {
             navigator.clipboard.writeText(email)
@@ -137,13 +137,13 @@ export const Home: React.FC<HomeProps> = ({ onNavigate }) => {
     });
 
     const authorRole = css({
-        fontSize: '0.8rem',
+        fontSize: '0.7rem',
         color: 'var(--colors-brand-primary-dark)',
         fontWeight: '700',
         textTransform: 'uppercase',
         letterSpacing: '0.5px',
         background: 'var(--colors-brand-primary-light)',
-        padding: '6px 16px',
+        padding: '4px 12px',
         borderRadius: 'pill',
         display: 'inline-block',
         marginBottom: '20px',
@@ -378,23 +378,23 @@ export const Home: React.FC<HomeProps> = ({ onNavigate }) => {
                     <div className={detailsList}>
                         <div className={detailItem}>
                             <div className={detailLabel}>📚 Спеціальність</div>
-                            <div className={detailValue}>014 Середня освіта (Мова і література (англійська))</div>
+                            <div className={detailValue}>035.10 Філологія, «Прикладна лінгвістика»</div>
                         </div>
                         <div className={detailItem}>
-                            <div className={detailLabel}>🎓 Кваліфікаційна робота</div>
-                            <div className={detailValue}>бакалавра</div>
+                            <div className={detailLabel}>🎓 Кваліфікаційний рівень</div>
+                            <div className={detailValue}>студентка бакалаврату</div>
                         </div>
                         <div className={detailItem}>
                             <div className={detailLabel}>🏫 Заклад освіти</div>
                             <div className={detailValue}>Національний університет кораблебудування імені адмірала Макарова</div>
                         </div>
                         <div className={detailItem}>
-                            <div className={detailLabel}>🏢 Інститут / Кафедра</div>
-                            <div className={detailValue}>Гуманітарний інститут, кафедра теоретичної та прикладної лінгвістики</div>
+                            <div className={detailLabel}>🏢 Факультет / Кафедра</div>
+                            <div className={detailValue}>Філологічний факультет, кафедра прикладної лінгвістики</div>
                         </div>
-                        <div className={detailItem}>
-                            <div className={detailLabel}>👥 Академічна група</div>
-                            <div className={detailValue}>група 4721</div>
+                        <div className={detailItem} style={{ display: 'flex', alignItems: 'center', gap: '8px' }} >
+                            <div className={detailLabel}>👥 Академічна група:</div>
+                            <div className={detailValue}>4721</div>
                         </div>
                         <div className={detailItem}>
                             <div className={detailLabel}>✉️ Контактний Email</div>
@@ -403,8 +403,8 @@ export const Home: React.FC<HomeProps> = ({ onNavigate }) => {
                                     <a href="mailto:teac4er1@gmail.com" className={emailLink}>
                                         teac4er1@gmail.com
                                     </a>
-                                    <button 
-                                        onClick={handleCopyEmail} 
+                                    <button
+                                        onClick={handleCopyEmail}
                                         className={copyBtn}
                                         title="Скопіювати пошту"
                                         aria-label="Copy email address"
@@ -456,7 +456,7 @@ export const Home: React.FC<HomeProps> = ({ onNavigate }) => {
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
+            </div >
+        </div >
     );
 };

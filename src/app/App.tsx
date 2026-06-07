@@ -198,7 +198,7 @@ export const App: React.FC = () => {
                     </nav>
                 </div>
             </header>
- 
+
             {/* MAIN CONTENT SPACE */}
             <main className={contentContainer}>
                 {currentSection === 'home' && <Home onNavigate={handleNavigate} />}
@@ -208,11 +208,11 @@ export const App: React.FC = () => {
                 {currentSection === 'recommendations' && <Recommendations defaultSubTab={recSubTab} />}
                 {currentSection === 'methods' && <Methods />}
             </main>
- 
+
             {/* PREMIUM FOOTER */}
             <footer className={footerStyle}>
                 <div className={footerText}>
-                    © {new Date().getFullYear()} - Методичний хаб: навчання англійської мови дітей з особливими освітніми потребами • Дроздова Ксенія Олексіївна
+                    © {new Date().getFullYear()} - Методичний хаб: навчання англійської мови дітей з ООП • Дроздова Ксенія Олексіївна
                 </div>
             </footer>
         </div>
