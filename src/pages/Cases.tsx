@@ -76,25 +76,35 @@ export const Cases: React.FC = () => {
         flexDirection: 'column',
         gap: '8px',
         marginBottom: '20px',
+        borderTop: '1px dashed var(--colors-brand-border-light)',
+        paddingTop: '12px',
     });
 
     const fieldItem = css({
         display: 'flex',
-        flexDirection: 'column',
         fontSize: '0.875rem',
+        lineHeight: '1.4',
     });
 
     const fieldLabel = css({
         fontWeight: '700',
         color: 'var(--colors-brand-text-muted)',
         fontSize: '0.8rem',
-        textTransform: 'uppercase',
-        letterSpacing: '0.3px',
+        minWidth: '110px',
     });
 
     const fieldValue = css({
         color: 'var(--colors-brand-text-main)',
-        marginTop: '2px',
+    });
+
+    const caseCardInner = css({
+        display: 'flex',
+        flexDirection: 'column',
+        height: '100%',
+    });
+
+    const buttonPush = css({
+        marginTop: 'auto',
     });
 
     // Details sections style inside modal
@@ -114,6 +124,9 @@ export const Cases: React.FC = () => {
         letterSpacing: '0.5px',
         color: 'var(--colors-brand-text-muted)',
         marginBottom: '4px',
+        display: 'flex',
+        alignItems: 'center',
+        gap: '6px',
     });
 
     const modalSectionText = css({
@@ -134,35 +147,39 @@ export const Cases: React.FC = () => {
 
             <div className={casesGrid}>
                 {casesSourceData.map((c) => (
-                    <Card key={c.number} interactive glowColor="var(--colors-brand-primary-light)">
-                        <div className={caseCardHeader}>
-                            <span className={caseBadge}>Кейс №{c.number}</span>
-                            <span className={caseMeta}>{c.age} р. • {c.grade} кл. ({c.type})</span>
-                        </div>
-                        <h3 className={caseTitle}>Учень {c.initial}</h3>
+                    <Card key={c.number} interactive glowColor="var(--colors-brand-primary-light)" className={css({ display: 'flex', flexDirection: 'column' })}>
+                        <div className={caseCardInner}>
+                            <div className={caseCardHeader}>
+                                <span className={caseBadge}>Кейс №{c.number}</span>
+                                <span className={caseMeta}>{c.age} р. • {c.grade} кл. ({c.type})</span>
+                            </div>
+                            <h3 className={caseTitle}>Учень {c.initial}</h3>
 
-                        <div className={fieldsContainer}>
-                            <div className={fieldItem}>
-                                <span className={fieldLabel}>Нозологія / Стан:</span>
-                                <span className={fieldValue}>{c.diagnosis}</span>
+                            <div className={fieldsContainer}>
+                                <div className={fieldItem}>
+                                    <span className={fieldLabel}>🏥 Група ООП:</span>
+                                    <span className={fieldValue}><strong>{c.diagnosis}</strong></span>
+                                </div>
+                                <div className={fieldItem}>
+                                    <span className={fieldLabel}>👥 Супровід:</span>
+                                    <span className={fieldValue}>{c.specialists}</span>
+                                </div>
+                                <div className={fieldItem}>
+                                    <span className={fieldLabel}>📋 Програма:</span>
+                                    <span className={fieldValue}>{c.curriculum}</span>
+                                </div>
                             </div>
-                            <div className={fieldItem}>
-                                <span className={fieldLabel}>Фахівці супроводу:</span>
-                                <span className={fieldValue}>{c.specialists}</span>
-                            </div>
-                            <div className={fieldItem}>
-                                <span className={fieldLabel}>Організація програми:</span>
-                                <span className={fieldValue}>{c.curriculum}</span>
+
+                            <div className={buttonPush}>
+                                <Button
+                                    variant="primary"
+                                    fullWidth
+                                    onClick={() => setSelectedCase(c)}
+                                >
+                                    📊 Розгорнути аналітичну карту
+                                </Button>
                             </div>
                         </div>
-
-                        <Button
-                            variant="primary"
-                            fullWidth
-                            onClick={() => setSelectedCase(c)}
-                        >
-                            Аналізувати кейс ➡️
-                        </Button>
                     </Card>
                 ))}
             </div>
@@ -177,37 +194,37 @@ export const Cases: React.FC = () => {
                 {selectedCase && (
                     <div className={css({ display: 'flex', flexDirection: 'column', gap: '20px' })}>
                         <div className={modalSection} style={{ borderLeftColor: 'var(--colors-brand-primary)' }}>
-                            <div className={modalSectionLabel}>Клініко-педагогічний статус</div>
+                            <div className={modalSectionLabel}>📋 Клініко-педагогічний статус</div>
                             <p className={modalSectionText}>{selectedCase.status_text}</p>
                         </div>
 
                         <div className={modalSection} style={{ borderLeftColor: 'var(--colors-nozology-top)' }}>
-                            <div className={modalSectionLabel}>Вплив воєнного досвіду (дистрес)</div>
+                            <div className={modalSectionLabel}>🕊️ Контекст та життєві обставини</div>
                             <p className={modalSectionText}>{selectedCase.war_text}</p>
                         </div>
 
                         <div className={modalSection} style={{ borderLeftColor: 'var(--colors-nozology-ras)' }}>
-                            <div className={modalSectionLabel}>Когнітивно-поведінкові прояви на уроках</div>
+                            <div className={modalSectionLabel}>🧠 Навчальна діяльність та когнітивна сфера</div>
                             <p className={modalSectionText}>{selectedCase.cognition_text}</p>
                         </div>
 
                         <div className={modalSection} style={{ borderLeftColor: 'var(--colors-nozology-rdug)' }}>
-                            <div className={modalSectionLabel}>Особливості соціальної взаємодії</div>
+                            <div className={modalSectionLabel}>🤝 Соціальна взаємодія та поведінкові реакції</div>
                             <p className={modalSectionText}>{selectedCase.social_text}</p>
                         </div>
 
                         <div className={modalSection} style={{ borderLeftColor: 'var(--colors-nozology-znm)' }}>
-                            <div className={modalSectionLabel}>Реакція на сигнали повітряної тривоги</div>
+                            <div className={modalSectionLabel}>🚨 Поведінка під час повітряної тривоги</div>
                             <p className={modalSectionText}>{selectedCase.alarm_text}</p>
                         </div>
 
                         <div className={modalSection} style={{ borderLeftColor: 'var(--colors-nozology-ora)' }}>
-                            <div className={modalSectionLabel}>Адаптація та ресурси навчання англійської мови</div>
+                            <div className={modalSectionLabel}>🇬🇧 Особливості вивчення англійської мови</div>
                             <p className={modalSectionText}>{selectedCase.english_text}</p>
                         </div>
 
                         <div className={modalSection} style={{ borderLeftColor: 'var(--colors-nozology-zpr)' }}>
-                            <div className={modalSectionLabel}>Навички саморегуляції та стабілізації</div>
+                            <div className={modalSectionLabel}>🛡️ Стратегії стабілізації та копінг-ресурси</div>
                             <p className={modalSectionText}>{selectedCase.stabilization_text}</p>
                         </div>
                     </div>
